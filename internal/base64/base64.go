@@ -3,6 +3,7 @@ package base64
 import (
 	"encoding/base64"
 	"encoding/binary"
+	"strings"
 )
 
 func EncodeToString(src []byte) string {
@@ -24,5 +25,8 @@ func EncodeUint64ToString(v uint64) string {
 }
 
 func DecodeString(src string) ([]byte, error) {
+	if strings.ContainsAny(src, "+/") {
+		return base64.StdEncoding.DecodeString(src)
+	}
 	return base64.RawURLEncoding.DecodeString(src)
 }
